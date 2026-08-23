@@ -5,7 +5,7 @@
 #
 #  Uso online:
 #    curl -fsSL https://raw.githubusercontent.com/panxos/syswarden/master/bootstrap.sh | bash
-#    curl -fsSL https://is.gd/syswarden | bash          # short URL (ver README)
+#    curl -fsSL https://tinyurl.com/syswardenv2 | bash  # short URL
 #
 #  Uso local:
 #    bash bootstrap.sh [--help]

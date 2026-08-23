@@ -54,14 +54,8 @@ máquinas actualizan la misma noche).
 # Oficial — siempre funciona
 curl -fsSL https://raw.githubusercontent.com/panxos/syswarden/master/bootstrap.sh | bash
 
-# Short URLs (mismo instalador)
+# Short URL (mismo instalador)
 curl -fsSL https://tinyurl.com/syswardenv2 | bash
-curl -fsSL https://tinyurl.com/syswarden2  | bash   # alias alternativo
-
-# Estilo blackice — crea tu is.gd manual en https://is.gd/ (API bloquea raw.githubusercontent):
-#   Pega: https://raw.githubusercontent.com/panxos/syswarden/master/bootstrap.sh
-#   Alias: syswarden  →  obtienes https://is.gd/syswarden
-curl -fsSL https://is.gd/syswarden | bash
 ```
 
 Instalador interactivo, bonito y a prueba de `curl | bash`: pregunta AUR helper, flatpak,
