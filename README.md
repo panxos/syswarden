@@ -44,6 +44,19 @@ máquinas actualizan la misma noche).
 
 ## 📦 Instalación
 
+### One-liner online (recomendado)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/panxos/syswarden/master/bootstrap.sh | bash
+# short URL:
+curl -fsSL https://is.gd/syswarden | bash
+```
+
+Instalador interactivo, bonito y a prueba de `curl | bash`: pregunta AUR helper, flatpak,
+reflector/países, caché, **hora diaria**, Telegram y self-update. Funciona en cada
+máquina con valores por defecto inteligentes y resumen antes de instalar.
+Créditos: **Francisco Aravena (panxos) — SoporteInfo.net**
+
 ### Desde git (recomendado — habilita auto-update)
 
 ```bash
