@@ -1,0 +1,83 @@
+<svg width="900" height="320" viewBox="0 0 900 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title>SysWarden — Mantenimiento automático de Arch Linux</title>
+  <desc>SysWarden v2.0.0 by Francisco Aravena (panxos) — SoporteInfo.net</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a0e14"/>
+      <stop offset="100%" stop-color="#1a2332"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00d4ff"/>
+      <stop offset="100%" stop-color="#5b8def"/>
+    </linearGradient>
+    <linearGradient id="shield" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#00d4ff"/>
+      <stop offset="100%" stop-color="#0ea5e9"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="320" rx="18" fill="url(#bg)"/>
+  <rect width="900" height="320" rx="18" fill="none" stroke="url(#accent)" stroke-opacity="0.35" stroke-width="1.5"/>
+
+  <!-- Top accent line -->
+  <rect x="0" y="0" width="900" height="3" rx="1.5" fill="url(#accent)"/>
+
+  <!-- Shield icon -->
+  <g transform="translate(48, 58)">
+    <path d="M 38 6 L 68 18 L 68 44 C 68 58 56 70 38 76 C 20 70 8 58 8 44 L 8 18 Z"
+          fill="none" stroke="url(#shield)" stroke-width="2.8" stroke-linejoin="round" filter="url(#glow)"/>
+    <path d="M 38 6 L 68 18 L 68 44 C 68 58 56 70 38 76 C 20 70 8 58 8 44 L 8 18 Z"
+          fill="url(#shield)" opacity="0.12"/>
+    <!-- checkmark -->
+    <path d="M 22 38 L 33 49 L 54 28" fill="none" stroke="#00d4ff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Title -->
+  <text x="130" y="92" font-family="'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace" font-size="46" font-weight="800" letter-spacing="-1.5" fill="#f1f5f9">Sys<tspan fill="url(#accent)">Warden</tspan></text>
+  <text x="130" y="118" font-family="'Inter', 'Segoe UI', system-ui, sans-serif" font-size="13.5" font-weight="500" letter-spacing="0.8" fill="#94a3b8">MANTENIMIENTO AUTOMÁTICO  •  ARCH LINUX  •  TELEGRAM</text>
+
+  <!-- Divider -->
+  <rect x="130" y="132" width="520" height="1.2" rx="0.6" fill="url(#accent)" opacity="0.45"/>
+
+  <!-- Tagline -->
+  <text x="130" y="158" font-family="'Inter', 'Segoe UI', system-ui, sans-serif" font-size="13" font-weight="400" fill="#cbd5e1">Espejos → pacman/AUR → Flatpak → caché → reporte. Cero interacción.</text>
+  <text x="130" y="178" font-family="'Inter', 'Segoe UI', system-ui, sans-serif" font-size="12" fill="#64748b">Flotas de máquinas desde un solo bot. Auto-actualizable desde GitHub.</text>
+
+  <!-- Badges row -->
+  <g transform="translate(130, 200)">
+    <rect width="78" height="22" rx="11" fill="#0ea5e9" opacity="0.95"/>
+    <text x="39" y="15.5" text-anchor="middle" font-family="'Inter', sans-serif" font-size="10.5" font-weight="700" fill="white">v2.0.0</text>
+
+    <rect x="86" width="112" height="22" rx="11" fill="none" stroke="#334155" stroke-width="1.2"/>
+    <text x="142" y="15.5" text-anchor="middle" font-family="'Inter', sans-serif" font-size="10" font-weight="600" fill="#94a3b8">Arch Linux</text>
+
+    <rect x="206" width="74" height="22" rx="11" fill="none" stroke="#334155" stroke-width="1.2"/>
+    <text x="243" y="15.5" text-anchor="middle" font-family="'Inter', sans-serif" font-size="10" font-weight="600" fill="#94a3b8">MIT</text>
+
+    <rect x="288" width="86" height="22" rx="11" fill="none" stroke="#334155" stroke-width="1.2"/>
+    <text x="331" y="15.5" text-anchor="middle" font-family="'Inter', sans-serif" font-size="10" font-weight="600" fill="#94a3b8">bash 5.x</text>
+  </g>
+
+  <!-- Credits bar bottom -->
+  <rect x="0" y="268" width="900" height="52" rx="0" fill="#0f172a" opacity="0.95"/>
+  <rect x="0" y="268" width="900" height="1" fill="url(#accent)" opacity="0.35"/>
+
+  <text x="32" y="290" font-family="'Inter', sans-serif" font-size="11.5" font-weight="700" fill="#e2e8f0">Francisco Aravena</text>
+  <text x="158" y="290" font-family="'Inter', sans-serif" font-size="11.5" fill="#64748b">(panxos)</text>
+  <text x="32" y="306" font-family="'Inter', sans-serif" font-size="10.5" fill="#5b8def">github.com/panxos</text>
+
+  <text x="868" y="290" text-anchor="end" font-family="'Inter', sans-serif" font-size="11.5" font-weight="700" fill="#38bdf8">SoporteInfo.net</text>
+  <text x="868" y="306" text-anchor="end" font-family="'Inter', sans-serif" font-size="10" fill="#64748b">Soluciones Informáticas Profesionales  •  Hecho con ♥ en Chile 🇨🇱</text>
+
+  <!-- Decorative grid dots top-right -->
+  <g opacity="0.07" fill="#38bdf8">
+    <circle cx="780" cy="48" r="1.8"/><circle cx="800" cy="48" r="1.8"/><circle cx="820" cy="48" r="1.8"/><circle cx="840" cy="48" r="1.8"/>
+    <circle cx="780" cy="68" r="1.8"/><circle cx="800" cy="68" r="1.8"/><circle cx="820" cy="68" r="1.8"/><circle cx="840" cy="68" r="1.8"/>
+    <circle cx="780" cy="88" r="1.8"/><circle cx="800" cy="88" r="1.8"/><circle cx="820" cy="88" r="1.8"/><circle cx="840" cy="88" r="1.8"/>
+  </g>
+</svg>

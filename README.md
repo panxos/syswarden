@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/banner.svg" alt="SysWarden — Mantenimiento automático de Arch Linux" width="900"/>
+</p>
+
 # 🛡️ SysWarden
 
 > Mantenimiento automático de Arch Linux con notificaciones ricas en Telegram.
@@ -47,8 +51,16 @@ máquinas actualizan la misma noche).
 ### One-liner online (recomendado)
 
 ```bash
+# Oficial — siempre funciona
 curl -fsSL https://raw.githubusercontent.com/panxos/syswarden/master/bootstrap.sh | bash
-# short URL:
+
+# Short URLs (mismo instalador)
+curl -fsSL https://tinyurl.com/syswardenv2 | bash
+curl -fsSL https://tinyurl.com/syswarden2  | bash   # alias alternativo
+
+# Estilo blackice — crea tu is.gd manual en https://is.gd/ (API bloquea raw.githubusercontent):
+#   Pega: https://raw.githubusercontent.com/panxos/syswarden/master/bootstrap.sh
+#   Alias: syswarden  →  obtienes https://is.gd/syswarden
 curl -fsSL https://is.gd/syswarden | bash
 ```
 
