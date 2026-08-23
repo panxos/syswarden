@@ -1,0 +1,15 @@
+[Unit]
+Description=SysWarden — Mantenimiento automático de Arch Linux
+Documentation=https://github.com/panxos/syswarden
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/syswarden
+# Sin timeout — actualizaciones grandes pueden tardar
+TimeoutStartSec=0
+User=root
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=syswarden

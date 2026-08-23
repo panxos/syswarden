@@ -1,0 +1,12 @@
+[Unit]
+Description=SysWarden — Timer de auto-actualización (semanal)
+Requires=syswarden-selfupdate.service
+
+[Timer]
+# Sábados 12:10 PM — fuera de la ventana de mantenimiento nocturno
+OnCalendar=Sat *-*-* 12:10:00
+Persistent=true
+Unit=syswarden-selfupdate.service
+
+[Install]
+WantedBy=timers.target

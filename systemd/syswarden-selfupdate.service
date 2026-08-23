@@ -1,0 +1,10 @@
+[Unit]
+Description=SysWarden — Auto-actualización desde el repo git
+Documentation=https://github.com/panxos/syswarden
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/syswarden --self-update
+SyslogIdentifier=syswarden

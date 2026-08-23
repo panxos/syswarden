@@ -1,0 +1,27 @@
+# ══════════════════════════════════════════════════════════════════════════════
+#  SysWarden — Configuración
+#  Copiar a /etc/syswarden.conf (permisos 600) y editar credenciales
+# ══════════════════════════════════════════════════════════════════════════════
+
+# AUR helper: yay | paru
+AUR_HELPER="yay"
+
+# Actualizar Flatpak también
+USE_FLATPAK="true"
+
+# Refrescar espejos de pacman antes de actualizar
+USE_REFLECTOR="true"
+# Países separados por coma — fallback automático si un país tiene espejos malos
+REFLECTOR_COUNTRY="Chile,Argentina,Brazil,US"
+# Argumentos extra de reflector (protocolo, orden, cantidad)
+REFLECTOR_ARGS="--protocol https --sort rate --latest 10"
+
+# Versiones de paquetes a conservar en /var/cache/pacman/pkg
+KEEP_CACHE_VERSIONS="2"
+
+# ─── Notificaciones Telegram ──────────────────────────────────────────────────
+# 1) Crear bot con @BotFather → obtener TOKEN
+# 2) Escribirle al bot una vez, luego obtener chat_id:
+#    curl -s "https://api.telegram.org/bot<TOKEN>/getUpdates" | jq '.result[0].message.chat.id'
+TELEGRAM_TOKEN=""
+TELEGRAM_CHAT_ID=""

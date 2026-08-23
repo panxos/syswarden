@@ -1,0 +1,12 @@
+[Unit]
+Description=SysWarden — Timer diario 02:30 AM
+Requires=syswarden.service
+
+[Timer]
+OnCalendar=*-*-* 02:30:00
+# Jitter para no saturar mirrors cuando varias máquinas actualizan
+RandomizedDelaySec=900
+Unit=syswarden.service
+
+[Install]
+WantedBy=timers.target
