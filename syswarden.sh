@@ -4,7 +4,7 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #  Autor:   Francisco Aravena (panxos) <https://github.com/panxos>
 #  Repo:    https://github.com/panxos/syswarden
-#  Versión: 2.0.0
+#  Versión: 2.0.2
 #  Licencia: MIT
 #
 #  Fases: espejos → pacman/AUR → flatpak → caché → métricas + notificación
@@ -12,7 +12,7 @@
 
 set -euo pipefail
 
-readonly VERSION="2.0.1"
+readonly VERSION="2.0.2"
 readonly SCRIPT_NAME="syswarden"
 CONFIG_FILE="/etc/syswarden.conf"
 LOG_FILE="/var/log/syswarden.log"

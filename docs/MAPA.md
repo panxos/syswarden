@@ -1,6 +1,6 @@
 # 🗺️ SysWarden — Mapa del script
 
-Mapa estructural completo de `syswarden.sh` v2.0.1 (≈390 líneas).
+Mapa estructural completo de `syswarden.sh` v2.0.2 (≈390 líneas).
 
 ## Flujo general
 
@@ -65,7 +65,7 @@ desincronizado provocaba `failed to prepare transaction` (ej. conflicto
 
 ### Espejos multi-país (v2.0)
 `REFLECTOR_COUNTRY="Chile,Argentina,Brazil,US"` — reflector acepta lista CSV;
-ordena por velocidad y da fallback si el mirror local está podrido de madrugada.
+ordena por velocidad y da fallback si el mirror local está desincronizado o no responde de madrugada.
 `REFLECTOR_ARGS` configurable desde conf (antes hardcodeado).
 
 ### Lock con fd 9
@@ -107,7 +107,7 @@ reporta N (los upgrades in-place no alteran el set de paquetes).
 🪞 Espejos: ✅ Chile,...          (+🧹 Caché: 6.6G → 2.1G)
 💾 Disco /: 22% (796G/3.7T)
 🐧 Kernel: 7.1.8-arch1-3         ← post-update
-🛡️ SysWarden: v2.0.1             ← trazabilidad de versión
+🛡️ SysWarden: v2.0.2             ← trazabilidad de versión
 📅 Finalizado: YYYY-MM-DD HH:MM:SS
 🔄 Actualizados: (top 10-15 si ≤15 total)
 ❌ Errores: (lista puntual)

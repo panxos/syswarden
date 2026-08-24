@@ -3,6 +3,19 @@
 Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/),
 versionado con [SemVer](https://semver.org/lang/es/).
 
+## [2.0.2] - 2026-08-24
+
+Español neutro elegante — elevado a **Regla de Oro** global (`~/.config/opencode/rules/06-elegant-docs.md` + `~/.claude/rules/06-elegant-docs.md`).
+
+### Fixed
+- **Troubleshooting `Revisá` → `Revisa`:** voseo rioplatense → tuteo neutro chileno (consistente con `Edita /etc/...`). También `bootstrap.sh:319` `revisá` → `revisa`.
+- **Troubleshooting `Excluí`/`considerá` → `Excluye`/`considera`:** voseo → neutro + `upgrade` → `actualización` (`yay` no tiene bloqueo nativo; considera cambiarlo a la versión del repositorio).
+- **`install.sh:93` `no pisar` → `no sobrescribir`:** técnico + evita doble sentido regional de `pisar`.
+- **`docs/MAPA.md:68` `podrido` → `desincronizado o no responde`:** coloquial despectivo → técnico preciso.
+
+### Changed
+- Auditoría completa anti-doble-sentido: `grep -R -i -E "corrida|coger|concha|pico\b|cola\b|pisar|podrido|Revisá"` ahora limpio. `corrida` solo queda en créditos históricos intencionales.
+
 ## [2.0.1] - 2026-08-24
 
 Correcciones reportadas por la comunidad — **gracias a Wuilmer Bolivar y Antonio L.**

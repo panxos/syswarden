@@ -6,7 +6,7 @@
 
 set -euo pipefail
 
-readonly VERSION="2.0.1"
+readonly VERSION="2.0.2"
 readonly SCRIPT_NAME="syswarden"
 readonly REPO_URL="https://github.com/panxos/syswarden.git"
 REPO_DIR="/opt/syswarden"
@@ -90,7 +90,7 @@ for u in service timer selfupdate.service selfupdate.timer; do
     install -Dm644 "$src" "/etc/systemd/system/${dest}"
 done
 
-# 3) Config: no pisar la existente
+# 3) Config: no sobrescribir la existente (neutral — evita doble sentido regional de "pisar")
 if [[ ! -f "/etc/${SCRIPT_NAME}.conf" ]]; then
     install -Dm600 "$SRC_DIR/${SCRIPT_NAME}.conf.example" "/etc/${SCRIPT_NAME}.conf"
     echo "   Config creada: /etc/${SCRIPT_NAME}.conf ← EDITAR credenciales Telegram"

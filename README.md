@@ -7,7 +7,7 @@
 > Mantenimiento automático de Arch Linux con notificaciones ricas en Telegram.
 > Espejos → pacman/AUR → Flatpak → caché → reporte. Cero interacción.
 
-![Version](https://img.shields.io/badge/version-2.0.1-blue)
+![Version](https://img.shields.io/badge/version-2.0.2-blue)
 ![Platform](https://img.shields.io/badge/platform-Arch%20Linux%20%7C%20Arch--based-1793D1)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Shell](https://img.shields.io/badge/bash-5.x-black)
@@ -139,8 +139,8 @@ syswarden --verbose                           # sin sudo → mensaje amigable (g
 
 ## ❓ Troubleshooting
 
-**La ejecución termina "Completado con errores"**
-→ Revisá `/var/log/syswarden.log`; si hubo error, el log de diagnóstico completo
+**La ejecución termina “Completado con errores”**
+→ Revisa `/var/log/syswarden.log`; si hubo un error, el registro de diagnóstico completo
 queda en `/tmp/syswarden.*.log`.
 
 **Telegram no manda nada**
@@ -148,8 +148,8 @@ queda en `/tmp/syswarden.*.log`.
 fallos de notificación.
 
 **Un paquete AUR falla todas las noches**
-→ SysWarden lo reporta y continúa con lo demás. Excluí ese paquete del upgrade
-automático (`yay` no tiene hold nativo; considerá cambiarlo a versión repo).
+→ SysWarden lo reporta y continúa con los demás. Excluye ese paquete de la actualización
+automática (`yay` no tiene bloqueo nativo; considera cambiarlo a la versión del repositorio).
 
 ## 🗺️ Mapa del script
 

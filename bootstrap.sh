@@ -16,7 +16,7 @@
 # ══════════════════════════════════════════════════════════════════════════════
 set -euo pipefail
 
-VERSION="2.0.1"
+VERSION="2.0.2"
 REPO_URL="https://github.com/panxos/syswarden.git"
 REPO_DIR="/opt/syswarden"
 CONF_FILE="/etc/syswarden.conf"
@@ -316,7 +316,7 @@ CONF
   if syswarden --dry-run 2>&1 | tail -8 | sed 's/^/  /' >"$_tty"; then
     ok "Dry-run OK" >"$_tty"
   else
-    warn "Dry-run terminó con advertencias — revisá /var/log/syswarden.log"
+    warn "Dry-run terminó con advertencias — revisa /var/log/syswarden.log"
   fi
 
   # ─── Éxito ────────────────────────────────────────────────────────────────
