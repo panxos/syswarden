@@ -7,7 +7,7 @@
 > Mantenimiento automático de Arch Linux con notificaciones ricas en Telegram.
 > Espejos → pacman/AUR → Flatpak → caché → reporte. Cero interacción.
 
-![Version](https://img.shields.io/badge/version-2.0.0-blue)
+![Version](https://img.shields.io/badge/version-2.0.1-blue)
 ![Platform](https://img.shields.io/badge/platform-Arch%20Linux%20%7C%20Arch--based-1793D1)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Shell](https://img.shields.io/badge/bash-5.x-black)
@@ -27,8 +27,8 @@ un solo bot de Telegram.
 - 🔄 **Actualización completa**: repos oficiales (pacman, como root) + AUR (`yay`/`paru`, como tu usuario — los helpers rechazan builds como root).
 - 🪞 **Espejos siempre rápidos**: `reflector` con multi-país y fallback (si un mirror está desincronizado a las 3 AM, no rompe la transacción).
 - 🧹 **Caché bajo control**: `paccache -rkN` configurable; nunca borra huérfanos (destructivo).
-- 📱 **Notificaciones Telegram HTML ricas**: inicio y cierre de cada corrida, top de paquetes actualizados, errores puntuales, aviso de reboot/kernel nuevo.
-- 🔒 **Lock anti-doble-corrida** (`flock`): timer + ejecución manual nunca chocan.
+- 📱 **Notificaciones Telegram HTML ricas**: inicio y cierre de cada ejecución, top de paquetes actualizados, errores puntuales, aviso de reboot/kernel nuevo.
+- 🔒 **Bloqueo anti-ejecución simultánea** (`flock`): timer y ejecución manual nunca colisionan.
 - 🧪 **Modo `--dry-run --verbose`**: simula todo sin tocar nada.
 - ♻️ **Auto-actualización**: timer semanal que hace `git pull` del repo y se reinstala solo.
 - 📋 **Log doble**: `/var/log/syswarden.log` + journald. En caso de error conserva el log de diagnóstico en `/tmp`.
@@ -71,13 +71,15 @@ cd syswarden
 sudo ./install.sh --from-git --migrate
 ```
 
-### Manual
+### Manual (sin auto-actualización)
 
 ```bash
 git clone https://github.com/panxos/syswarden.git
 cd syswarden
 sudo ./install.sh
 ```
+
+> ⚠️ **Sin `--from-git` no se clona el repo en `/opt/syswarden`**, por lo que `syswarden --self-update` y el timer semanal quedarán deshabilitados. Usa `sudo ./install.sh --from-git` o el one-liner `bootstrap.sh` para habilitar auto-actualización. *Gracias a **Wuilmer Bolivar** por reportar este flujo manual.*
 
 El instalador:
 1. Copia `syswarden.sh` → `/usr/local/bin/syswarden`
@@ -120,23 +122,24 @@ curl -s "https://api.telegram.org/bot<TOKEN>/getUpdates" | jq '.result[0].messag
 ## 🕹️ Uso manual
 
 ```bash
-sudo syswarden --dry-run --verbose   # simular todo
-sudo syswarden                       # corrida completa ahora
-syswarden --version                  # versión instalada
+sudo syswarden --dry-run --verbose   # simular todo (requiere sudo — reportado por Wuilmer Bolivar)
+sudo syswarden                       # ejecución completa ahora
+syswarden --version                  # versión instalada (no requiere sudo)
 sudo syswarden --self-update         # git pull + reinstalar (lo hace el timer semanal)
 ```
 
 ## 🔍 Verificación
 
 ```bash
-systemctl list-timers | grep syswarden        # próxima corrida
-journalctl -u syswarden.service -n 50         # última corrida
+systemctl list-timers | grep syswarden        # próxima ejecución
+journalctl -u syswarden.service -n 50         # última ejecución
 tail -f /var/log/syswarden.log                # log en vivo
+syswarden --verbose                           # sin sudo → mensaje amigable (gracias Wuilmer Bolivar)
 ```
 
 ## ❓ Troubleshooting
 
-**La corrida termina "Completado con errores"**
+**La ejecución termina "Completado con errores"**
 → Revisá `/var/log/syswarden.log`; si hubo error, el log de diagnóstico completo
 queda en `/tmp/syswarden.*.log`.
 
@@ -151,6 +154,11 @@ automático (`yay` no tiene hold nativo; considerá cambiarlo a versión repo).
 ## 🗺️ Mapa del script
 
 Ver [`docs/MAPA.md`](docs/MAPA.md) para el mapa completo de fases, funciones y flujo de datos.
+
+## 🙏 Agradecimientos
+
+- **Wuilmer Bolivar** — reportó el flujo de instalación manual sin `--from-git` y la falta de chequeo `root` (`Permiso denegado` en línea 70 al ejecutar `syswarden --verbose` sin sudo).
+- **Antonio L.** — corrección léxica: reemplazo de “corrida” por “ejecución” en toda la documentación (evitar literalismo de IA, más elegante en español técnico).
 
 ## 📄 Licencia
 

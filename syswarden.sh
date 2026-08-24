@@ -12,7 +12,7 @@
 
 set -euo pipefail
 
-readonly VERSION="2.0.0"
+readonly VERSION="2.0.1"
 readonly SCRIPT_NAME="syswarden"
 CONFIG_FILE="/etc/syswarden.conf"
 LOG_FILE="/var/log/syswarden.log"
@@ -50,7 +50,11 @@ done
 # ─── Modo self-update ─────────────────────────────────────────────────────────
 if [[ "${SELF_UPDATE:-false}" == true ]]; then
     if [[ ! -d "$REPO_DIR/.git" ]]; then
-        echo "ERROR: no hay clone git en $REPO_DIR — instala con install.sh --from-git" >&2
+        echo "ERROR: no hay clone git en $REPO_DIR" >&2
+        echo "  → Instalaste en modo manual (sudo ./install.sh sin --from-git)." >&2
+        echo "  → Reinstala con: sudo ./install.sh --from-git" >&2
+        echo "  → O con bootstrap: curl -fsSL https://raw.githubusercontent.com/panxos/syswarden/master/bootstrap.sh | bash" >&2
+        echo "  (Gracias a Wuilmer Bolivar por reportar este flujo)" >&2
         exit 1
     fi
     echo "[self-update] git -C $REPO_DIR pull ..."
@@ -62,6 +66,14 @@ if [[ "${SELF_UPDATE:-false}" == true ]]; then
         echo "[self-update] sin cambios o error en git pull"
     fi
     exit 0
+fi
+
+# ─── Guard: requiere root (salvo --help/--version que ya salieron) ───────────
+# Reportado por Wuilmer Bolivar: syswarden --verbose sin sudo daba "Permiso denegado" crudo en línea 70
+if [[ $EUID -ne 0 ]]; then
+    echo "ERROR: debes ejecutar como root — usa: sudo $SCRIPT_NAME $* --verbose" >&2
+    echo "  ($CONFIG_FILE es 600 y $LOG_FILE requiere root)" >&2
+    exit 1
 fi
 
 # ─── Config ───────────────────────────────────────────────────────────────────
@@ -213,10 +225,24 @@ else
 fi
 
 # ─── Fase 2: Actualización pacman (root) + AUR (usuario) ─────────────────────
+# Flags AUR homogenizados para yay/paru (fix: --skipreview inválido en yay 12.5+/paru — reportado vía fallo servicio h0rus)
+# yay necesita --answerclean/--answerdiff para modo desatendido; paru solo --noconfirm
+build_aur_flags() {
+    local helper="$1"
+    if [[ "$helper" == "yay" ]]; then
+        echo "--noconfirm --answerclean None --answerdiff None --answeredit None --answerupgrade None --color never"
+    else
+        echo "--noconfirm --color never"
+    fi
+}
+AUR_FLAGS_STR=$(build_aur_flags "$AUR_HELPER")
+# shellcheck disable=SC2206
+read -r -a AUR_FLAGS_ARR <<< "$AUR_FLAGS_STR"
+
 echo "--- [2/5] Actualizando sistema ($AUR_HELPER) ---"
 if $DRY_RUN; then
     echo "[DRY-RUN] pacman -Syyu --noconfirm"
-    echo "[DRY-RUN] sudo -u \$USER $AUR_HELPER -Sua --noconfirm --skipreview"
+    echo "[DRY-RUN] sudo -u \$USER $AUR_HELPER -Sua $AUR_FLAGS_STR"
     PKG_UPDATED="$PENDING_COUNT (simulado)"
 else
     PRE_PKG=$(pacman -Q 2>/dev/null | sort)
@@ -239,15 +265,17 @@ else
         fi
         # AUR después, como usuario normal (hereda XDG dirs del usuario real)
         if $PACMAN_OK; then
-            if sudo -u "$AUR_USER" -E "$AUR_HELPER" -Sua --noconfirm --skipreview --color never 2>&1 | tee -a "$TMPLOG"; then
+            # shellcheck disable=SC2145
+            if sudo -u "$AUR_USER" -E "$AUR_HELPER" -Sua "${AUR_FLAGS_ARR[@]}" 2>&1 | tee -a "$TMPLOG"; then
                 echo "$AUR_HELPER: AUR actualizado"
             else
                 ERRORS+=("$AUR_HELPER (AUR): falló actualización")
             fi
         fi
     else
-        # Fallback: todo con el helper (corrida manual como usuario normal)
-        if "$AUR_HELPER" -Syyu --noconfirm --skipreview --color never 2>&1 | tee -a "$TMPLOG"; then
+        # Fallback: todo con el helper (ejecución manual como usuario normal — gracias Antonio L. por corrección léxica)
+        # shellcheck disable=SC2145
+        if "$AUR_HELPER" -Syyu "${AUR_FLAGS_ARR[@]}" 2>&1 | tee -a "$TMPLOG"; then
             :
         else
             ERRORS+=("$AUR_HELPER: falló la actualización (ver log)")

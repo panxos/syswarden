@@ -16,7 +16,7 @@
 # ══════════════════════════════════════════════════════════════════════════════
 set -euo pipefail
 
-VERSION="2.0.0"
+VERSION="2.0.1"
 REPO_URL="https://github.com/panxos/syswarden.git"
 REPO_DIR="/opt/syswarden"
 CONF_FILE="/etc/syswarden.conf"
@@ -325,7 +325,7 @@ CONF
 ${G}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${N}
 ${G}  ✓  SysWarden v${VERSION} instalado correctamente${N}
 ${G}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${N}
-  ${W}Próxima corrida :${N} $(systemctl show syswarden.timer -p NextElapseUSecRealtime --value 2>/dev/null | xargs -I{} date -d {} '+%Y-%m-%d %H:%M %Z' 2>/dev/null || echo "$DAILY_TIME diario")
+  ${W}Próxima ejecución :${N} $(systemctl show syswarden.timer -p NextElapseUSecRealtime --value 2>/dev/null | xargs -I{} date -d {} '+%Y-%m-%d %H:%M %Z' 2>/dev/null || echo "$DAILY_TIME diario")
   ${W}Self-update     :${N} $(systemctl is-enabled syswarden-selfupdate.timer 2>/dev/null || echo "deshabilitado")
   ${W}Prueba manual   :${N} ${C}sudo syswarden --dry-run --verbose${N}
   ${W}Logs            :${N} ${D}/var/log/syswarden.log  •  journalctl -u syswarden -f${N}

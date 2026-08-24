@@ -6,7 +6,7 @@
 
 set -euo pipefail
 
-readonly VERSION="2.0.0"
+readonly VERSION="2.0.1"
 readonly SCRIPT_NAME="syswarden"
 readonly REPO_URL="https://github.com/panxos/syswarden.git"
 REPO_DIR="/opt/syswarden"
@@ -65,6 +65,14 @@ fi
 
 [[ -f "$SRC_DIR/${SCRIPT_NAME}.sh" ]] || { echo "ERROR: no encuentro ${SRC_DIR}/${SCRIPT_NAME}.sh" >&2; exit 1; }
 
+# Aviso si se instala sin --from-git (reportado por Wuilmer Bolivar)
+if ! $FROM_GIT && [[ ! -d "$REPO_DIR/.git" ]]; then
+    echo "⚠️  Instalación manual sin --from-git: no habrá repo en $REPO_DIR" >&2
+    echo "   → 'syswarden --self-update' quedará deshabilitado." >&2
+    echo "   → Para habilitar auto-actualización, reinstala con: sudo ./install.sh --from-git" >&2
+    echo "   → (Gracias a Wuilmer Bolivar por reportar este flujo)" >&2
+fi
+
 echo "── Instalando SysWarden v${VERSION} desde $SRC_DIR ──"
 
 # 1) Binario
@@ -95,7 +103,10 @@ OLD_CONF="/etc/update-notifyr.conf"
 if $MIGRATE && [[ -f "$OLD_CONF" ]]; then
     echo "   Migrando valores desde $OLD_CONF ..."
     for key in AUR_HELPER USE_FLATPAK USE_REFLECTOR REFLECTOR_COUNTRY KEEP_CACHE_VERSIONS TELEGRAM_TOKEN TELEGRAM_CHAT_ID; do
-        val=$(grep -E "^${key}=" "$OLD_CONF" | tail -1 | cut -d= -f2-) || true
+        raw=$(grep -E "^${key}=" "$OLD_CONF" | tail -1 | cut -d= -f2-) || true
+        # Fix doble-comillas: el conf origen ya trae "valor" con comillas → strip antes de reenvolver
+        # (bug reportado indirectamente: migración generaba AUR_HELPER=""yay"")
+        val=$(echo "$raw" | sed -e 's/^"//' -e 's/"$//' -e "s/^'//" -e "s/'\$//")
         if [[ -n "$val" ]] && grep -qE "^${key}=" "/etc/${SCRIPT_NAME}.conf"; then
             sed -i "s|^${key}=.*|${key}=\"${val}\"|" "/etc/${SCRIPT_NAME}.conf"
         fi

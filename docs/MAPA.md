@@ -1,6 +1,6 @@
 # 🗺️ SysWarden — Mapa del script
 
-Mapa estructural completo de `syswarden.sh` v2.0.0 (≈370 líneas).
+Mapa estructural completo de `syswarden.sh` v2.0.1 (≈390 líneas).
 
 ## Flujo general
 
@@ -54,13 +54,14 @@ main
 Los helpers AUR (`yay`/`paru`) **rechazan ejecutar builds como root**. Por eso:
 
 1. `pacman -Syyu --noconfirm` como **root** (repos oficiales)
-2. `sudo -u $AUR_USER -E $AUR_HELPER -Sua --noconfirm --skipreview` como **usuario real**
+2. `sudo -u $AUR_USER -E $AUR_HELPER -Sua` + flags homogenizados como **usuario real**
    (`$SUDO_USER`, fallback UID 1000). `-E` preserva entorno/XDG del usuario.
+   Flags: `yay` → `--noconfirm --answerclean None --answerdiff None --answeredit None --answerupgrade None`; `paru` → `--noconfirm`. *(fix v2.0.1: `--skipreview` era inválido en yay 12.5+/paru — gracias reporte servicio h0rus)*
 3. Si no hay usuario detectable → fallback monolítico con el helper.
 
 **Lección histórica (v1.x):** correr `yay -Syyu` completo como root contra un espejo
 desincronizado provocaba `failed to prepare transaction` (ej. conflicto
-`kdsoap-qt6`/`kio-extras`) y la corrida completa se marcaba en error.
+`kdsoap-qt6`/`kio-extras`) y la ejecución completa se marcaba en error.
 
 ### Espejos multi-país (v2.0)
 `REFLECTOR_COUNTRY="Chile,Argentina,Brazil,US"` — reflector acepta lista CSV;
@@ -68,8 +69,8 @@ ordena por velocidad y da fallback si el mirror local está podrido de madrugada
 `REFLECTOR_ARGS` configurable desde conf (antes hardcodeado).
 
 ### Lock con fd 9
-`exec 9>lockfile; flock -n 9` — si el timer y una corrida manual coinciden, la
-segunda sale silenciosamente con exit 0 (no ensucia el log ni dispara Telegram).
+`exec 9>lockfile; flock -n 9` — si el timer y una ejecución manual coinciden, la
+segunda sale silenciosamente con exit 0 (no ensucia el log ni dispara Telegram). *(léxico corregido gracias a Antonio L.)*
 
 ### Log de diagnóstico condicional
 TMPLOG (`mktemp`) recibe el output crudo de pacman/AUR/flatpak/paccache vía `tee`.
@@ -106,7 +107,7 @@ reporta N (los upgrades in-place no alteran el set de paquetes).
 🪞 Espejos: ✅ Chile,...          (+🧹 Caché: 6.6G → 2.1G)
 💾 Disco /: 22% (796G/3.7T)
 🐧 Kernel: 7.1.8-arch1-3         ← post-update
-🛡️ SysWarden: v2.0.0             ← trazabilidad de versión
+🛡️ SysWarden: v2.0.1             ← trazabilidad de versión
 📅 Finalizado: YYYY-MM-DD HH:MM:SS
 🔄 Actualizados: (top 10-15 si ≤15 total)
 ❌ Errores: (lista puntual)
