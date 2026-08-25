@@ -48,6 +48,19 @@ máquinas actualizan la misma noche).
 
 ## 📦 Instalación
 
+### Menú interactivo local
+
+Desde un checkout del repositorio puedes ejecutar:
+
+```bash
+./menu.sh
+```
+
+El menú permite instalar o reinstalar, actualizar SysWarden, consultar su
+estado y programación, revisar logs, desinstalar, ver la ayuda y consultar
+los créditos. No reemplaza `install.sh`; los comandos CLI existentes siguen
+disponibles.
+
 ### One-liner online (recomendado)
 
 ```bash

@@ -117,14 +117,19 @@ fi
 
 systemctl daemon-reload
 
-# 5) Timer principal + auto-update semanal
+# 5) Timer principal + auto-update semanal si existe un checkout Git
 systemctl enable --now "${SCRIPT_NAME}.timer"
-systemctl enable --now "${SCRIPT_NAME}-selfupdate.timer"
+if [[ -d "$REPO_DIR/.git" ]]; then
+    systemctl enable --now "${SCRIPT_NAME}-selfupdate.timer"
+else
+    systemctl disable --now "${SCRIPT_NAME}-selfupdate.timer" 2>/dev/null || true
+    echo "   Self-update deshabilitado: no existe un repositorio Git en $REPO_DIR."
+fi
 
 echo ""
 echo "═══════════════════════════════════════"
 echo " SysWarden v${VERSION} instalado ✅"
 echo "   Timer diario : $(systemctl show "${SCRIPT_NAME}.timer" -p NextElapseUSecRealtime --value)"
-echo "   Self-update   : semanal ($(systemctl is-enabled "${SCRIPT_NAME}-selfupdate.timer"))"
+echo "   Self-update   : $(systemctl is-enabled "${SCRIPT_NAME}-selfupdate.timer" 2>/dev/null || echo "deshabilitado")"
 echo "   Prueba manual : sudo ${SCRIPT_NAME} --dry-run --verbose"
 echo "═══════════════════════════════════════"
