@@ -158,6 +158,7 @@ cleanup() {
         rm -f "$TMPLOG"
     fi
 }
+ERRORS=()
 trap cleanup EXIT
 
 # ─── Fase 0: Info inicial + paquetes pendientes ──────────────────────────────
@@ -181,7 +182,7 @@ ALL_PENDING=$(echo "$ALL_PENDING" | grep -v '^$' || true)
 
 if [[ -n "$ALL_PENDING" ]]; then
     PENDING_COUNT=$(echo "$ALL_PENDING" | wc -l)
-    PENDING_LIST=$(echo "$ALL_PENDING" | head -15 | awk '{printf "%s %s→%s\n", $1, $2, $4}')
+    PENDING_LIST=$(head -n 15 <<<"$ALL_PENDING" | awk '{printf "%s %s→%s\n", $1, $2, $4}')
 fi
 
 echo "Paquetes pendientes (pacman+AUR): $PENDING_COUNT"
@@ -198,7 +199,7 @@ tg_send "$(cat <<EOF
 EOF
 )"
 
-ERRORS=()
+
 PKG_UPDATED=0
 FLATPAK_UPDATED=0
 MIRROR_STATUS="no actualizado"
@@ -263,10 +264,10 @@ else
             ERRORS+=("pacman: falló actualización de repos")
             PACMAN_OK=false
         fi
-        # AUR después, como usuario normal (hereda XDG dirs del usuario real)
+        # AUR después, como usuario normal con su propio HOME (-H); con -E heredaba HOME=/root y paru fallaba con EACCES
         if $PACMAN_OK; then
             # shellcheck disable=SC2145
-            if sudo -u "$AUR_USER" -E "$AUR_HELPER" -Sua "${AUR_FLAGS_ARR[@]}" 2>&1 | tee -a "$TMPLOG"; then
+            if sudo -H -u "$AUR_USER" "$AUR_HELPER" -Sua "${AUR_FLAGS_ARR[@]}" 2>&1 | tee -a "$TMPLOG"; then
                 echo "$AUR_HELPER: AUR actualizado"
             else
                 ERRORS+=("$AUR_HELPER (AUR): falló actualización")
